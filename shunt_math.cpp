@@ -22,11 +22,15 @@ public:
 	void ProcessInput() {
 		string input;
 		for (cin >> input; input != "q"; cin >> input) {
-			if (IsValidOp(input.at(0))) {
+			char c = input.at(0);
+
+			if (IsValidOp(c)) {
 				OpInfo op;
-				op.opChar = input.at(0);
+				op.opChar = c;
 				DetPriority(op);
 				ProcessOp(op);
+			} else if (IsParen(c)){
+				ProcessParen(c);
 			} else {
 				cout << input << " ";
 			}
@@ -46,6 +50,8 @@ private:
 			op.priority = 1;
 		else if (op.opChar == '^')
 			op.priority = 2;
+		else if (IsParen(op.opChar))
+			op.priority = 3;
 		// otherwise, the struct constructor took care of priority = 0
 	}
 
@@ -53,18 +59,44 @@ private:
 		return opChars.find(c) != string::npos;
 	}
 
+	// print the top, then pop it
+	void PrintPop() {
+		cout << operators.top().opChar << " ";
+		operators.pop();
+	}		
+
 	// This handles comparing priority and printing the operator along the way,
 	// if necessary.
 	void ProcessOp(OpInfo op) {
-		if (!operators.empty()) {
+		if (!operators.empty() && !IsParen(operators.top().opChar)) {
 			if (op.priority <= operators.top().priority) {
-				cout << operators.top().opChar << " ";
-				operators.pop();
+				PrintPop();
 			}
 		}
 		operators.push(op);
 	}
+
+	void ProcessParen(char paren) {
+		if (paren == '(') {
+			OpInfo opParen;
+			opParen.opChar = paren;
+
+			operators.push(opParen);
+		} else { // it's a ')'
+			// do the operations until you encounter the open paren
+			while(operators.top().opChar != '(') {
+				PrintPop();
+			}
+
+			// then throw it out
+			operators.pop();
+		}
+	}
 	
+	bool IsParen(char c) {
+		return c == '(' || c == ')';
+	}
+
 	stack<OpInfo> operators;
 	static const string opChars;
 };

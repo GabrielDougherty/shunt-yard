@@ -2,3 +2,5 @@
 *~
 # binary
 shunt_math
+# core dumps
+*.core
