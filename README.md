@@ -19,7 +19,7 @@ And run:
 `./shunt_math`
 
 # Expression Grammar
-The grammar of the input expression is `expression q`.
+The grammar of the input expression is `expression q`. That is, an arithmetic expression followed by the lowercase letter q.
 Additionally, there must be a space between each operation, variable, number and parentheses.
 
 The input arithmetic expression may contain:
