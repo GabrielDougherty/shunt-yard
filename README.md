@@ -1,7 +1,7 @@
 # shunt-yard
 This is a program that interactively reads in an artihmetic expression in infix form, and prints the expression converted to postifx form.
 
-Essentially, it's a quick (and dirty) implementation of the shunting yard algorithm.
+Essentially, it's a straightforward implementation of the shunting yard algorithm.
 
 # Installation
 To install, first download:
